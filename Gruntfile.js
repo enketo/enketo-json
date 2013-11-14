@@ -44,7 +44,7 @@ module.exports = function( grunt ) {
                             baseUrl: 'src',
                             paths: {
                                 jquery: '../test/lib/jquery',
-                                'jquery.getXPath': '../lib/jquery-xpath/jquery.getXpath'
+                                'jquery.getXPath': '../lib/jquery-xpath/jquery.getXPath'
                             }
                         }
                     }
