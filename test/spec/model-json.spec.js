@@ -2,7 +2,7 @@ if ( typeof define !== 'function' ) {
     var define = require( 'amdefine' )( module );
 }
 
-define( [ "FormModelJSON", "jquery", "jquery.getXPath" ], function( FormModelJSON, $ ) {
+define( [ "FormModelJSON", "jquery", "jquery.xpath" ], function( FormModelJSON, $ ) {
 
     describe( "Conversion from Drishti-style JSON non-repeat form elements to an XML instance", function() {
         var data = mockInstances.a,

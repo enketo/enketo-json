@@ -1,4 +1,4 @@
-define( [ 'jquery', 'jquery.getXPath' ], function( $ ) {
+define( [ 'jquery', 'jquery.xpath' ], function( $ ) {
 
     /**
      * Class maintaining a Drishti JSON Data Definition and deal with JSON <-> XML transformation
