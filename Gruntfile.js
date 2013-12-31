@@ -36,6 +36,7 @@ module.exports = function( grunt ) {
             test: {
                 src: 'src/FormModelJSON.js ',
                 options: {
+                    keepRunner: true,
                     specs: 'test/spec/*.js',
                     helpers: [ 'test/mock/*.js' ],
                     template: require( 'grunt-template-jasmine-requirejs' ),
@@ -43,7 +44,7 @@ module.exports = function( grunt ) {
                         requireConfig: {
                             baseUrl: 'src',
                             paths: {
-                                jquery: '../test/lib/jquery',
+                                jquery: '../lib/jquery',
                                 'jquery.xpath': '../lib/jquery-xpath/jquery.xpath'
                             }
                         }
