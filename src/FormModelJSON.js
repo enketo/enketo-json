@@ -24,6 +24,7 @@ define( [ 'jquery', 'jquery.xpath' ], function( $ ) {
 
             if ( typeof data !== 'object' ) {
                 recordError( "error: no JSON object provided during instantiation" );
+                return null;
             }
             //main form:
             for ( i = 0; i < data.form.fields.length; i++ ) {
@@ -236,7 +237,9 @@ define( [ 'jquery', 'jquery.xpath' ], function( $ ) {
         }
 
         function recordError( errorMsg ) {
-            if ( typeof data.errors == 'undefined' ) data.errors = [];
+            if ( typeof data.errors == 'undefined' ) {
+                data.errors = [];
+            }
             data.errors.push( errorMsg );
             console.error( errorMsg );
         }
