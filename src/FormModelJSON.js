@@ -71,11 +71,17 @@ define( [ 'jquery', 'jquery.xpath' ], function( $ ) {
 
         /**
          * Gets current state of form instance in JSON format.
+         *
          */
-        this.get = function() {
+        /**
+         * Gets current state of form instance in JSON format.
+         * @param  {*} form instance of the Enketo Form class
+         * @return {*}      JSON data object
+         */
+        this.get = function( form ) {
             var $repeatLeaves, origInstances,
                 subFormsStarted = [],
-                $mainLeaves = this.getInstanceXML( false ).find( '*' ).filter( function() {
+                $mainLeaves = this.getInstanceXML( form, false ).find( '*' ).filter( function() {
                     return $( this ).children().length === 0;
                 } ),
                 /* 
@@ -84,7 +90,7 @@ define( [ 'jquery', 'jquery.xpath' ], function( $ ) {
                  * Nested repeats are not supported!
                  */
                 //$repeats = form.getDataO().$.find('instance:first [template]').siblings().filter(function(){
-                $repeats = this.getInstanceXML( true ).find( '[template]' ).siblings().filter( function() {
+                $repeats = this.getInstanceXML( form, true ).find( '[template]' ).siblings().filter( function() {
                     var nodeName = $( this ).prop( 'nodeName' );
                     return $( this ).siblings( nodeName + '[template]' ).length > 0;
                 } );
@@ -154,7 +160,7 @@ define( [ 'jquery', 'jquery.xpath' ], function( $ ) {
          * @param  {boolean} includeTemplates [description]
          * @return {jQuery}                  [description]
          */
-        this.getInstanceXML = function( includeTemplates ) {
+        this.getInstanceXML = function( form, includeTemplates ) {
             return $( $.parseXML( form.getDataStr( includeTemplates ) ) );
         };
 
