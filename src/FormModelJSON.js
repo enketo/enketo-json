@@ -71,10 +71,6 @@ define( [ 'jquery', 'jquery.xpath' ], function( $ ) {
 
         /**
          * Gets current state of form instance in JSON format.
-         *
-         */
-        /**
-         * Gets current state of form instance in JSON format.
          * @param  {*} form instance of the Enketo Form class
          * @return {*}      JSON data object
          */
@@ -89,23 +85,22 @@ define( [ 'jquery', 'jquery.xpath' ], function( $ ) {
                  * but thankfully is guaranteed in formhub-hosted forms.
                  * Nested repeats are not supported!
                  */
-                //$repeats = form.getDataO().$.find('instance:first [template]').siblings().filter(function(){
                 $repeats = this.getInstanceXML( form, true ).find( '[template]' ).siblings().filter( function() {
                     var nodeName = $( this ).prop( 'nodeName' );
                     return $( this ).siblings( nodeName + '[template]' ).length > 0;
                 } );
 
-            //this code has to be refactored, as the unboundSubformInstanceProps stuff was bolted on when the JSON spec changed.
+            // this code has to be refactored, as the unboundSubformInstanceProps stuff was bolted on when the JSON spec changed.
             $repeats.each( function() {
                 var i, prop, bindPath, subForm, instanceIndex,
                     subForms = [],
                     instance = {},
                     $repeat = $( this );
-                //identifier for subform in JSON format is default_bind_path
+                // identifier for subform in JSON format is default_bind_path
                 bindPath = '/model/instance' + $repeat.getXPath();
                 if ( data.form.sub_forms ) {
                     subForms = $.grep( data.form.sub_forms, function( subfrm ) {
-                        //be flexible with trailing slash
+                        // be flexible with trailing slash
                         return ( subfrm.default_bind_path === bindPath || subfrm.default_bind_path === bindPath + '/' );
                     } );
                 }
@@ -128,17 +123,16 @@ define( [ 'jquery', 'jquery.xpath' ], function( $ ) {
                         var props = getNodeProps( $( this ) ),
                             field = getField( props.path, subForm.fields, subForm.default_bind_path );
                         if ( field ) {
-                            //adding value even if it's empty without checking what it was previously
+                            // adding value even if it's empty without checking what it was previously
                             instance[ field.name ] = props.value;
                         }
                     } );
                     subForm.instances.push( instance );
-                    //add subform instance properties that have no equivalent in XML - a quick and dirty addition
+                    // add subform instance properties that have no equivalent in XML - a quick and dirty addition
                     instanceIndex = subForm.instances.indexOf( instance );
                     for ( i = 0; i < unboundSubformInstanceProps.length; i++ ) {
                         prop = unboundSubformInstanceProps[ i ];
                         if ( origInstances[ instanceIndex ] && typeof origInstances[ instanceIndex ][ prop ] !== 'undefined' ) {
-                            //console.log('adding unbound property '+prop+'to repeat instance with index '+instanceIndex);
                             instance[ prop ] = origInstances[ instanceIndex ][ prop ];
                         }
                     }
@@ -180,11 +174,7 @@ define( [ 'jquery', 'jquery.xpath' ], function( $ ) {
             if ( fields.length > 1 ) {
                 recordError( 'Multiple fields found (multiple nodes with path: ' + path + ' found in JSON format.' );
                 return null;
-            }
-            /*else if (fields.length === 0 && path.indexOf('/meta/deprecatedID') !== -1){
-			return null;
-		}*/
-            else if ( fields.length === 0 ) {
+            } else if ( fields.length === 0 ) {
                 recordError( 'Field not found (node with path: ' + path + ' was missing from JSON format).' );
                 return null;
             } else {
@@ -204,7 +194,7 @@ define( [ 'jquery', 'jquery.xpath' ], function( $ ) {
         }
 
         /**
-         * [addXMLNode description]
+         * add an XML Node
          * @param {jQuery} $doc								jQuery doc with root element to add nodes to
          * @param {string} path								path of node to be added when not present starting with /
          * @param {string} value							value of node
@@ -237,11 +227,19 @@ define( [ 'jquery', 'jquery.xpath' ], function( $ ) {
             return $doc;
         }
 
-        //if the default path does not have a trailing slash, add one
+        /**
+         * add trailing slash to path if it doesn't have one
+         * @param  {string} path the path to check
+         * @return {string}      the 'fixed' path
+         */
         function defaultPathFixed( path ) {
             return ( path.lastIndexOf( '/' ) !== path.length - 1 ) ? path + '/' : path;
         }
 
+        /**
+         * Collect errors
+         * @param  {string} errorMsg the error message
+         */
         function recordError( errorMsg ) {
             if ( typeof data.errors == 'undefined' ) {
                 data.errors = [];
